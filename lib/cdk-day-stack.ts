@@ -1,5 +1,6 @@
 import { HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
-import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
+//import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
+import * as apigatewayv2Integrations from "@aws-cdk/aws-apigatewayv2-integrations"
 import { AttributeType, Table } from '@aws-cdk/aws-dynamodb';
 import { EventBus, Rule } from '@aws-cdk/aws-events';
 import { LambdaFunction } from '@aws-cdk/aws-events-targets';
@@ -100,14 +101,10 @@ export class CdkDayStack extends cdk.Stack {
     translateAPI.addRoutes({
       path: '/',
       methods: [HttpMethod.POST],
-      integration: new LambdaProxyIntegration({
-        handler: putTranslationFunction
-      })
+      integration: new apigatewayv2Integrations.HttpLambdaIntegration("TranslateIntegration", putTranslationFunction)
     })
 
-    const getProxy = new LambdaProxyIntegration({
-      handler: getTranslationFunction
-    })
+    const getProxy = new apigatewayv2Integrations.HttpLambdaIntegration("ProxyIntegrations", getTranslationFunction)
 
     translateAPI.addRoutes({
       path: '/{id}',

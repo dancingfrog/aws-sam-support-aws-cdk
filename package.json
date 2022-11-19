@@ -6,7 +6,9 @@
     "cdk-day": "bin/cdk-day.js"
   },
   "scripts": {
+    "bootstrap": "cdk bootstrap",
     "build": "tsc",
+    "deploy": "cdk deploy -a .aws-sam/build",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
